@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using Windows.Storage.Pickers;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Platform;
 using Newtonsoft.Json;
-using System.Collections.ObjectModel;
-using Windows.Storage.Pickers;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models.Json;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models.Maui;
 
-namespace CodeGen.UI.Models
+namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models
 {
     public delegate void OnLoadedEventHandler();
    
@@ -18,12 +20,13 @@ namespace CodeGen.UI.Models
         [ObservableProperty]
         private ObservableCollection<RequestInfo> _requests = new();
 
-        //private string? _loadedFile = null;
-
         public GeneratorConfiguration()
         {
-            //Reset();
+            Reset();
+        }
 
+        public void Reset()
+        {
             foreach (var type in new[]{
                                           "string",
                                           "int",
@@ -36,9 +39,9 @@ namespace CodeGen.UI.Models
                                       })
             {
                 var mi3 = new ModelInfo
-                {
-                    Name = type
-                };
+                          {
+                              Name = type
+                          };
                 mi3.Domain.Generate = false;
                 mi3.Service.Generate = false;
                 Models.Add(mi3);
@@ -55,32 +58,6 @@ namespace CodeGen.UI.Models
             //              };
             //    Models.Add(mi3);
             //}
-
-            //var mi = new ModelInfo
-            //{
-            //    Name = "bob"
-            //};
-            ////mi.Domain.InheritsFrom = "A";
-            //mi.Domain.Namespace = "B";
-
-            //var p = new ModelPropertyInfo();
-            //p.Name = "prop1";
-            //mi.Properties.Add(p);
-
-            //Models.Add(mi);
-
-            //var mi2 = new ModelInfo
-            //{
-            //    Name = "bob2"
-            //};
-            //mi2.Domain.InheritsFrom = mi;
-            //mi2.Domain.Namespace = "B2";
-            //Models.Add(mi2);
-        }
-
-        public void Reset()
-        {
-            //_loadedFile = null;
         }
 
         public async Task Load()
@@ -155,7 +132,7 @@ namespace CodeGen.UI.Models
                             var rrc = new RequestReturnCode
                                       {
                                           StatusCode = serviceModelRequestReturn.StatusCode,
-                                          Returns = GetDataTypeFromName(Models, serviceModelRequestReturn.Returns)
+                                          Returns = GetDataTypeFromName((ObservableCollection<ModelInfo>)Models, serviceModelRequestReturn.Returns)
                             };
                             ri.ReturnCodes.Add(rrc);
                         }
@@ -168,13 +145,13 @@ namespace CodeGen.UI.Models
                 {
                     var jsonRequest = json.Requests.First(x => String.Equals(x.Name, requestInfo.Name, StringComparison.OrdinalIgnoreCase));
 
-                    requestInfo.Domain.InheritsFrom = GetDataTypeFromName(Requests, jsonRequest.Domain?.InheritsFrom);
-                    requestInfo.Service.InheritsFrom = GetDataTypeFromName(Requests, jsonRequest.Service?.InheritsFrom);
+                    requestInfo.Domain.InheritsFrom = GetDataTypeFromName((ObservableCollection<RequestInfo>)Requests, jsonRequest.Domain?.InheritsFrom);
+                    requestInfo.Service.InheritsFrom = GetDataTypeFromName((ObservableCollection<RequestInfo>)Requests, jsonRequest.Service?.InheritsFrom);
 
                     foreach (var requestPropertyInfo in requestInfo.Properties)
                     {
                         var jsonProp = jsonRequest.Properties?.First(x => String.Equals(x.Name, requestPropertyInfo.Name, StringComparison.OrdinalIgnoreCase))!;
-                        requestPropertyInfo.DataType = GetDataTypeFromName(Models, jsonProp.DataType);
+                        requestPropertyInfo.DataType = GetDataTypeFromName((ObservableCollection<ModelInfo>)Models, jsonProp.DataType);
                     }
                 }
             }
@@ -235,15 +212,15 @@ namespace CodeGen.UI.Models
                 {
                     var jsonModel = json.Models.First(x => String.Equals(x.Name, modelInfo.Name, StringComparison.OrdinalIgnoreCase));
 
-                    modelInfo.Domain.InheritsFrom = GetDataTypeFromName(Models, jsonModel.Domain?.InheritsFrom);
-                    modelInfo.Domain.InheritsGeneric = GetDataTypeFromName(Models, jsonModel.Domain?.InheritsGeneric);
-                    modelInfo.Service.InheritsFrom = GetDataTypeFromName(Models, jsonModel.Service?.InheritsFrom);
-                    modelInfo.Service.InheritsGeneric = GetDataTypeFromName(Models, jsonModel.Service?.InheritsGeneric);
+                    modelInfo.Domain.InheritsFrom = GetDataTypeFromName((ObservableCollection<ModelInfo>)Models, jsonModel.Domain?.InheritsFrom);
+                    modelInfo.Domain.InheritsGeneric = GetDataTypeFromName((ObservableCollection<ModelInfo>)Models, jsonModel.Domain?.InheritsGeneric);
+                    modelInfo.Service.InheritsFrom = GetDataTypeFromName((ObservableCollection<ModelInfo>)Models, jsonModel.Service?.InheritsFrom);
+                    modelInfo.Service.InheritsGeneric = GetDataTypeFromName((ObservableCollection<ModelInfo>)Models, jsonModel.Service?.InheritsGeneric);
 
                     foreach (var modelInfoProperty in modelInfo.Properties)
                     {
                         var jsonProp = jsonModel.Properties?.First(x => String.Equals(x.Name, modelInfoProperty.Name, StringComparison.OrdinalIgnoreCase))!;
-                        modelInfoProperty.DataType = GetDataTypeFromName(Models, jsonProp.DataType);
+                        modelInfoProperty.DataType = GetDataTypeFromName((ObservableCollection<ModelInfo>)Models, jsonProp.DataType);
                     }
                 }
             }
@@ -301,12 +278,14 @@ namespace CodeGen.UI.Models
 
         private List<ServiceModelRequest> ConvertRequestsForSaving()
         {
-            return Requests.Select(x => new ServiceModelRequest(x, Models, Requests)).ToList();
+            return Enumerable.Select<RequestInfo, ServiceModelRequest>(Requests,
+                                        x => new ServiceModelRequest(x, Models, Requests)).ToList();
         }
 
         private List<ServiceModelModel> ConvertModelsForSaving()
         {
-            return Models.Select(x => new ServiceModelModel(x, Models)).ToList();
+            return Enumerable.Select<ModelInfo, ServiceModelModel>(Models,
+                                        x => new ServiceModelModel(x, Models)).ToList();
         }
     }
 }

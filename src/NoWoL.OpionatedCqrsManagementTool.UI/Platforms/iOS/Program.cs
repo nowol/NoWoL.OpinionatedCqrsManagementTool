@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace CodeGen.UI
+namespace NoWoL.OpinionatedCqrsManagementTool.UI
 {
     public class Program
     {

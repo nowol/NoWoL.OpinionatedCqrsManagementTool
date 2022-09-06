@@ -1,13 +1,8 @@
-using CommunityToolkit.Mvvm.Input;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
-using CodeGen.UI.Models;
-using CommunityToolkit.Maui.Views;
-using Microsoft.UI.Xaml.Controls;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models.Maui;
 using Button = Microsoft.Maui.Controls.Button;
-using System.Text.RegularExpressions;
 
-namespace CodeGen.UI;
+namespace NoWoL.OpinionatedCqrsManagementTool.UI;
 
 public partial class ModelsPage : ContentPage
 {
@@ -207,8 +202,8 @@ public partial class ModelsPage : ContentPage
         }
 
         if (ctx.Models.Any(x => String.Equals(x.Name,
-                                                result,
-                                                StringComparison.OrdinalIgnoreCase)))
+                                              result,
+                                              StringComparison.OrdinalIgnoreCase)))
         {
             await DisplayAlert("Oh no",
                                "This name is taken",

@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace CodeGen.UI
+namespace NoWoL.OpinionatedCqrsManagementTool.UI
 {
     internal class Program : MauiApplication
     {

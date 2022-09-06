@@ -1,4 +1,4 @@
-﻿namespace CodeGen.UI.Models
+﻿namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models
 {
     public interface IHasName
     {

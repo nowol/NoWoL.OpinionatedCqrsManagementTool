@@ -2,15 +2,16 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xxx="clr-namespace:CodeGen.UI"
+             xmlns:xxx="clr-namespace:NoWoL.OpinionatedCqrsManagementTool.UI"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:popups="using:CodeGen.UI.Popups"
-             xmlns:models="using:CodeGen.UI.Models"
-             xmlns:controls="using:CodeGen.UI.Controls"
-             xmlns:converters="using:CodeGen.UI.Converters"
-             x:Class="CodeGen.UI.ModelsPage"
+             xmlns:popups="using:NoWoL.OpinionatedCqrsManagementTool.UI.Popups"
+             xmlns:models="using:NoWoL.OpinionatedCqrsManagementTool.UI.Models.Maui"
+             xmlns:converters="using:NoWoL.OpinionatedCqrsManagementTool.UI.Converters"
+             xmlns:controls="using:NoWoL.OpinionatedCqrsManagementTool.UI.Controls"
+             xmlns:ui="using:NoWoL.OpinionatedCqrsManagementTool.UI"
+             x:Class="NoWoL.OpinionatedCqrsManagementTool.UI.ModelsPage"
              x:DataType="xxx:ModelsPageViewModel"
-             Title="ModelsPage">
+             Title="Models">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -61,13 +62,13 @@
                        IsSpellCheckEnabled="False" />
 
                 <Label Text="Domain Inherits From (optional)" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
-                <popups:DataTypePicker ItemsSource="{Binding AllModels, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}}}"
-                                       SelectedItem="{Binding SelectedModel.Domain.InheritsFrom, Mode=TwoWay, FallbackValue=null, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}}}" />
+                <popups:DataTypePicker ItemsSource="{Binding AllModels, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}"
+                                       SelectedItem="{Binding SelectedModel.Domain.InheritsFrom, Mode=TwoWay, FallbackValue=null, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}" />
                 <StackLayout IsVisible="{Binding SelectedModel.Domain.InheritsFrom, FallbackValue=false, Converter={StaticResource IsNotNullConverter}}">
                     <Label Text="Domain Inherits Generic Parameter" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
                     <popups:DataTypePicker x:DataType="models:ModelInfo"
-                                           ItemsSource="{Binding AllModels, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}}}"
-                                           SelectedItem="{Binding SelectedModel.Domain.InheritsGeneric, Mode=TwoWay, FallbackValue=null, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}}}" />
+                                           ItemsSource="{Binding AllModels, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}"
+                                           SelectedItem="{Binding SelectedModel.Domain.InheritsGeneric, Mode=TwoWay, FallbackValue=null, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}" />
                 </StackLayout>
 
                 <Label Text="Generate Service" Style="{StaticResource HeaderStyle}" />
@@ -90,13 +91,13 @@
 
                 <Label Text="Service Inherits From (optional)" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
                 <popups:DataTypePicker x:DataType="models:ModelInfo"
-                                       ItemsSource="{Binding AllModels, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}}}"
-                                       SelectedItem="{Binding SelectedModel.Service.InheritsFrom, Mode=TwoWay, FallbackValue=null, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}}}" />
+                                       ItemsSource="{Binding AllModels, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}"
+                                       SelectedItem="{Binding SelectedModel.Service.InheritsFrom, Mode=TwoWay, FallbackValue=null, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}" />
                 <StackLayout IsVisible="{Binding SelectedModel.Service.InheritsFrom, FallbackValue=false, Converter={StaticResource IsNotNullConverter}}">
                     <Label Text="Service Inherits Generic Parameter" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
                     <popups:DataTypePicker x:DataType="models:ModelInfo"
-                                           ItemsSource="{Binding AllModels, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}}}"
-                                           SelectedItem="{Binding SelectedModel.Service.InheritsGeneric, Mode=TwoWay, FallbackValue=null, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}}}" />
+                                           ItemsSource="{Binding AllModels, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}"
+                                           SelectedItem="{Binding SelectedModel.Service.InheritsGeneric, Mode=TwoWay, FallbackValue=null, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>
@@ -111,7 +112,7 @@
                 <Button Text="Add property" Clicked="AddProperty" />
 
                 <StackLayout Spacing="16" Margin="0,16,0,0"
-                    BindableLayout.ItemsSource="{Binding SelectedModel.Properties, FallbackValue=null, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}} }">
+                    BindableLayout.ItemsSource="{Binding SelectedModel.Properties, FallbackValue=null, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}} }">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="models:ModelPropertyInfo">
 
@@ -146,7 +147,7 @@
 
                                         <Label Text="Type" Margin="0,10,0,0" />
                                         <popups:DataTypePicker x:DataType="models:ModelPropertyInfo"
-                                                               ItemsSource="{Binding Models, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}}}"
+                                                               ItemsSource="{Binding Models, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}"
                                                                SelectedItem="{Binding DataType, Mode=TwoWay, FallbackValue=null}" />
 
                                         <StackLayout Orientation="Horizontal">
@@ -181,7 +182,7 @@
                 <Button Text="Add enum value" Clicked="AddEnumValue" />
 
                 <StackLayout Spacing="16" Margin="0,16,0,0"
-                    BindableLayout.ItemsSource="{Binding SelectedModel.EnumValues, FallbackValue=null, Source={RelativeSource AncestorType={x:Type xxx:ModelsPageViewModel}} }">
+                    BindableLayout.ItemsSource="{Binding SelectedModel.EnumValues, FallbackValue=null, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}} }">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="models:EnumValueModel">
 

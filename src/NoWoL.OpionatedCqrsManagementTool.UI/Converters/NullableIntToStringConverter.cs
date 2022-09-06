@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace CodeGen.UI.Converters
+namespace NoWoL.OpinionatedCqrsManagementTool.UI.Converters
 {
     public class NullableIntToStringConverter : IValueConverter
     {

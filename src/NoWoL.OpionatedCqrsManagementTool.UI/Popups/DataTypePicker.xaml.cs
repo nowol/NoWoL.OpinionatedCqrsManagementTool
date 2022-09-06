@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.ObjectModel;
-using CodeGen.UI.Models;
-using CommunityToolkit.Maui.Views;
+﻿using CommunityToolkit.Maui.Views;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models;
 
-namespace CodeGen.UI.Popups
+namespace NoWoL.OpinionatedCqrsManagementTool.UI.Popups
 {
     public partial class DataTypePicker : ContentView
     {

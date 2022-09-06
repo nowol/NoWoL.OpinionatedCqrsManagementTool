@@ -1,9 +1,8 @@
-﻿using Microsoft.UI.Xaml;
-
+﻿
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace CodeGen.UI.WinUI
+namespace NoWoL.OpinionatedCqrsManagementTool.UI.Platforms.Windows
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

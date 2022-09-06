@@ -1,6 +1,7 @@
-﻿using CodeGen.UI.Models;
+﻿using NoWoL.OpinionatedCqrsManagementTool.UI.Models;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models.Maui;
 
-namespace CodeGen.UI
+namespace NoWoL.OpinionatedCqrsManagementTool.UI
 {
     public partial class RequestsPage : ContentPage
     {
@@ -29,9 +30,10 @@ namespace CodeGen.UI
                 return;
             }
 
-            var exists = TypedBindingContext.Requests.Any(x => String.Equals(x.Name,
-                                                                             result,
-                                                                             StringComparison.OrdinalIgnoreCase));
+            var exists = Enumerable.Any<RequestInfo>(TypedBindingContext.Requests,
+                                           x => String.Equals(x.Name,
+                                                              result,
+                                                              StringComparison.OrdinalIgnoreCase));
 
             if (exists)
             {
@@ -83,9 +85,10 @@ namespace CodeGen.UI
                 return;
             }
 
-            var exists = ctx.SelectedRequest.Properties.Any(x => String.Equals(x.Name,
-                                                                               result,
-                                                                               StringComparison.OrdinalIgnoreCase));
+            var exists = Enumerable.Any<RequestPropertyInfo>(ctx.SelectedRequest.Properties,
+                                           x => String.Equals(x.Name,
+                                                              result,
+                                                              StringComparison.OrdinalIgnoreCase));
 
             if (exists)
             {
@@ -178,9 +181,10 @@ namespace CodeGen.UI
                 return;
             }
 
-            if (ctx.Requests.Any(x => String.Equals(x.Name,
-                                                    result,
-                                                    StringComparison.OrdinalIgnoreCase)))
+            if (Enumerable.Any<RequestInfo>(ctx.Requests,
+                                  x => String.Equals(x.Name,
+                                                     result,
+                                                     StringComparison.OrdinalIgnoreCase)))
             {
                 await DisplayAlert("Oh no",
                                    "This name is taken",
@@ -212,7 +216,8 @@ namespace CodeGen.UI
                     return;
                 }
 
-                var exists = ctx.SelectedRequest.ReturnCodes.Any(x => x.StatusCode == statusCode);
+                var exists = Enumerable.Any<RequestReturnCode>(ctx.SelectedRequest.ReturnCodes,
+                                               x => x.StatusCode == statusCode);
 
                 if (exists)
                 {

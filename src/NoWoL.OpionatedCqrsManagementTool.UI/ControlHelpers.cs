@@ -1,4 +1,4 @@
-﻿namespace CodeGen.UI
+﻿namespace NoWoL.OpinionatedCqrsManagementTool.UI
 {
     public static class ControlHelpers
     {

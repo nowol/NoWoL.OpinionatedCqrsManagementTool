@@ -1,12 +1,7 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
+using Microsoft.UI.Xaml.Controls;
 
-namespace CodeGen.UI.Controls
+namespace NoWoL.OpinionatedCqrsManagementTool.UI.Controls
 {
     public class NumericEntry : Entry
     {

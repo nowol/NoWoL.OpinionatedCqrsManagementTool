@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoWoL.OpionatedCqrsManagementTool.UI", "src\NoWoL.OpionatedCqrsManagementTool.UI\NoWoL.OpionatedCqrsManagementTool.UI.csproj", "{A3A3D412-3F92-4A4A-9ECA-E918A34740BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoWoL.OpinionatedCqrsManagementTool.UI", "src\NoWoL.OpionatedCqrsManagementTool.UI\NoWoL.OpinionatedCqrsManagementTool.UI.csproj", "{A3A3D412-3F92-4A4A-9ECA-E918A34740BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C6131ED-07FC-4735-901A-11AD32B2481C}"
 	ProjectSection(SolutionItems) = preProject

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CodeGen.UI.Models
+namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models.Maui
 {
     public partial class RequestInfo : ObservableValidator, IHasName
     {

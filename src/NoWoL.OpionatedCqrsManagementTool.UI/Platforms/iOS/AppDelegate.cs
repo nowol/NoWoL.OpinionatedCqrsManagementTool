@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace CodeGen.UI
+namespace NoWoL.OpinionatedCqrsManagementTool.UI
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

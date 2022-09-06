@@ -1,8 +1,9 @@
 using System.Collections.ObjectModel;
-using CodeGen.UI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models.Maui;
 
-namespace CodeGen.UI
+namespace NoWoL.OpinionatedCqrsManagementTool.UI
 {
     public partial class ModelsPageViewModel : ObservableObject
     {
@@ -35,14 +36,16 @@ namespace CodeGen.UI
         {
             Models.Clear();
 
-            IQueryable<ModelInfo> query = _generatorConfiguration.Models.AsQueryable();
+            IQueryable<ModelInfo> query = Queryable.AsQueryable<ModelInfo>(_generatorConfiguration.Models);
 
             if (!String.IsNullOrWhiteSpace(searchTerm))
             {
-                query = query.Where(x => x.Name != null && x.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+                query = Queryable.Where(query,
+                                        x => x.Name != null && x.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
             }
 
-            foreach (var modelInfo in query.OrderBy(x => x.Name))
+            foreach (var modelInfo in Queryable.OrderBy<ModelInfo, string?>(query,
+                                                           x => x.Name))
             {
                 Models.Add(modelInfo);
             }

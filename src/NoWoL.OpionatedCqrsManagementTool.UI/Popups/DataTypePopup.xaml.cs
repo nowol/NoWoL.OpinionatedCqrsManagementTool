@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using CodeGen.UI.Models;
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models;
 
-namespace CodeGen.UI.Popups
+namespace NoWoL.OpinionatedCqrsManagementTool.UI.Popups
 {
     public partial class DataTypePopup : Popup
     {

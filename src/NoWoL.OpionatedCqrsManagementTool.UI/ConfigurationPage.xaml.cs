@@ -1,10 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using CodeGen.UI.Models;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models;
 
-namespace CodeGen.UI;
+namespace NoWoL.OpinionatedCqrsManagementTool.UI;
 
 public partial class ConfigurationPage : ContentPage
 {

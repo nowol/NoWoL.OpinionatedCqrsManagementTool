@@ -2,8 +2,8 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               xmlns:popups="using:CodeGen.UI.Popups"
-               x:Class="CodeGen.UI.Popups.DataTypePopup"
+               xmlns:popups="using:NoWoL.OpinionatedCqrsManagementTool.UI.Popups"
+               x:Class="NoWoL.OpinionatedCqrsManagementTool.UI.Popups.DataTypePopup"
                x:DataType="popups:DataTypePopupViewModel">
 
     <Border Stroke="#000000"

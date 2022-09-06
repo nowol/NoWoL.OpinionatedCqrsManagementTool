@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
-using CodeGen.UI.Models;
+using NoWoL.OpinionatedCqrsManagementTool.UI.Models;
 
-namespace CodeGen.UI
+namespace NoWoL.OpinionatedCqrsManagementTool.UI
 {
     public static class MauiProgram
     {
