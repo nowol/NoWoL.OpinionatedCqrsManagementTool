@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Shell
+    x:Class="CodeGen.UI.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:CodeGen.UI"
+    Title="Generator-o-matic"
+    Shell.FlyoutBehavior="Disabled">
+
+    <TabBar>
+        <Tab Title="Configuration" Route="configuration">
+            <ShellContent ContentTemplate="{DataTemplate local:ConfigurationPage}"
+                          Route="ConfigurationPage" />
+
+        </Tab>
+        <Tab Title="Models" Route="models">
+            <ShellContent ContentTemplate="{DataTemplate local:ModelsPage}"
+                          Route="ModelsPage" />
+
+        </Tab>
+        <Tab Title="Requests" Route="requests">
+            <ShellContent ContentTemplate="{DataTemplate local:RequestsPage}"
+                          Route="RequestsPage" />
+        </Tab>
+    </TabBar>
+</Shell>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:popups="using:CodeGen.UI.Popups"
+               x:Class="CodeGen.UI.Popups.DataTypePopup"
+               x:DataType="popups:DataTypePopupViewModel">
+
+    <Border Stroke="#000000"
+            StrokeThickness="1">
+        <VerticalStackLayout Padding="20" Style="{StaticResource DataTypePicker}">
+            <Label Text="Select a type"/>
+            <Entry Text="{Binding SearchTerm, FallbackValue=''}" Placeholder="Filter"/>
+
+            <Picker ItemsSource="{Binding List, Mode=TwoWay, Source={RelativeSource AncestorType={x:Type popups:DataTypePopupViewModel}}}"
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedDataType, FallbackValue=null, Source={RelativeSource AncestorType={x:Type popups:DataTypePopupViewModel}}}">
+            </Picker>
+
+            <Button Text="Ok" BackgroundColor="Green" Clicked="OkClicked" Margin="0,20,0,0" />
+            <Button Text="Cancel" BackgroundColor="Red" Clicked="CancelClicked" />
+        </VerticalStackLayout>
+    </Border>
+
+</toolkit:Popup>

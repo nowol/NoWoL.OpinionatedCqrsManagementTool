@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="CodeGen.UI.Popups.DataTypePicker"
+             x:Name="this">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <HorizontalStackLayout BindingContext="{x:Reference this}">
+        <Label Text="{Binding SelectedItem.Name, FallbackValue='&lt;none&gt;'}"
+               VerticalOptions="Center" />
+
+        <Button Text="Select Type" Clicked="ChangeDataType_OnClicked" />
+
+        <Button Text="Clear Type" Clicked="Clear_OnClicked"
+                IsVisible="{Binding SelectedItem, Converter={StaticResource IsNotNullConverter}}" />
+    </HorizontalStackLayout>
+
+</ContentView>

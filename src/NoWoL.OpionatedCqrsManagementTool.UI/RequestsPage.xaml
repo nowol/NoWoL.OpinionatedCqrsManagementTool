@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xxx="clr-namespace:CodeGen.UI"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:popups="using:CodeGen.UI.Popups"
+             xmlns:models="using:CodeGen.UI.Models"
+             xmlns:converters="using:CodeGen.UI.Converters"
+             xmlns:controls="using:CodeGen.UI.Controls"
+             x:Class="CodeGen.UI.RequestsPage"
+             x:DataType="xxx:RequestsPageViewModel"
+             Title="Requests">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
+        </ResourceDictionary>
+
+        <converters:NullableIntToStringConverter x:Key="NullableIntToString" />
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*" />
+            <ColumnDefinition Width="40*" />
+            <ColumnDefinition Width="40*" />
+        </Grid.ColumnDefinitions>
+
+        <ScrollView WidthRequest="700"
+                    HorizontalOptions="Start"
+                    Padding="20,0,0,0"
+                    Grid.Column="1"
+                    IsVisible="{Binding SelectedRequest, Converter={StaticResource IsNotNullConverter}}">
+
+            <StackLayout>
+                <Label Text="Name" Style="{StaticResource HeaderStyle}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="{Binding SelectedRequest.Name, FallbackValue=''}"
+                           VerticalTextAlignment="Center"
+                           Grid.Column="0"/>
+                    <Button Text="Rename request"
+                            Grid.Column="1"
+                            Clicked="RenameRequest" />
+                </Grid>
+
+                <Label Text="Requires Authentication" Style="{StaticResource HeaderStyle}" />
+                <CheckBox IsChecked="{Binding SelectedRequest.RequiresAuthentication, FallbackValue=false}" />
+
+                <Label Text="Verb" Style="{StaticResource HeaderStyle}" />
+                <Picker SelectedItem="{Binding SelectedRequest.Verb, FallbackValue=null}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>GET</x:String>
+                            <x:String>POST</x:String>
+                            <x:String>PUT</x:String>
+                            <x:String>DELETE</x:String>
+                            <x:String>PATCH</x:String>
+                            <x:String>OPTION</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+                <Label Text="Url" Style="{StaticResource HeaderStyle}" />
+                <Entry Placeholder="Enter a URL"
+                       Text="{Binding SelectedRequest.Url, FallbackValue=''}"
+                       IsSpellCheckEnabled="False" />
+
+                <Label Text="Domain Namespace" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
+                <Entry Placeholder="Enter a domain namespace"
+                       Text="{Binding SelectedRequest.Domain.Namespace, FallbackValue=''}"
+                       IsSpellCheckEnabled="False" />
+
+                <Label Text="Domain Inherits From (optional)" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
+                <popups:DataTypePicker x:DataType="models:RequestInfo"
+                                       ItemsSource="{Binding Requests, Source={RelativeSource AncestorType={x:Type xxx:RequestsPageViewModel}}}"
+                                       SelectedItem="{Binding SelectedRequest.Domain.InheritsFrom, Mode=TwoWay, FallbackValue=null, Source={RelativeSource AncestorType={x:Type xxx:RequestsPageViewModel}}}" />
+
+                <Label Text="Service Namespace" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
+                <Entry Placeholder="Enter a service namespace"
+                       Text="{Binding SelectedRequest.Service.Namespace, FallbackValue=''}"
+                       IsSpellCheckEnabled="False" />
+
+                <Label Text="Service Inherits From (optional)" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
+
+                <popups:DataTypePicker x:DataType="models:RequestInfo"
+                                       ItemsSource="{Binding Requests, Source={RelativeSource AncestorType={x:Type xxx:RequestsPageViewModel}}}"
+                                       SelectedItem="{Binding SelectedRequest.Service.InheritsFrom, Mode=TwoWay, FallbackValue=null, Source={RelativeSource AncestorType={x:Type xxx:RequestsPageViewModel}}}" />
+
+
+                <Label Text="Return Codes" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
+                <Button Text="Add return code" Clicked="AddReturnCode" />
+
+                <StackLayout Spacing="16" Margin="0,16,0,0"
+                    BindableLayout.ItemsSource="{Binding SelectedRequest.ReturnCodes, FallbackValue=null, Source={RelativeSource AncestorType={x:Type xxx:RequestsPageViewModel}} }">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:RequestReturnCode">
+
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout>
+                                    <Button Text="/\"
+                                            Clicked="MoveReturnCodeUp"
+                                            BindingContext="{Binding .}" />
+
+                                    <Button Text="x"
+                                            Clicked="RemoveReturnCode"
+                                            BindingContext="{Binding .}" />
+
+                                    <Button Text="\/"
+                                            Clicked="MoveReturnCodeDown"
+                                            BindingContext="{Binding .}" />
+                                </StackLayout>
+
+                                <Border Stroke="#000000"
+                                        StrokeThickness="1"
+                                        Margin="20,0,0,0">
+                                    <StackLayout Padding="10,10,10,10">
+                                        <Label Text="Name" />
+                                        <Entry Placeholder="Status Code"
+                                               Text="{Binding StatusCode, FallbackValue=0}"
+                                               IsSpellCheckEnabled="False" />
+
+                                        <Label Text="Type" Margin="0,10,0,0" />
+                                        <popups:DataTypePicker ItemsSource="{Binding Models, Source={RelativeSource AncestorType={x:Type xxx:RequestsPageViewModel}}}"
+                                                               SelectedItem="{Binding Returns, Mode=TwoWay, FallbackValue=null}" />
+                                    </StackLayout>
+                                </Border>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+
+
+        <ScrollView WidthRequest="700"
+                    HorizontalOptions="Start"
+                    Padding="20,0,0,0"
+                    Grid.Column="2"
+                    IsVisible="{Binding SelectedRequest, Converter={StaticResource IsNotNullConverter}}">
+            <StackLayout>
+                <Label Text="Properties" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
+                <Button Text="Add property" Clicked="AddProperty" />
+
+                <StackLayout Spacing="16" Margin="0,16,0,0"
+                    BindableLayout.ItemsSource="{Binding SelectedRequest.Properties, FallbackValue=null, Source={RelativeSource AncestorType={x:Type xxx:RequestsPageViewModel}} }">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:RequestPropertyInfo">
+
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout>
+                                    <Button Text="/\"
+                                            Clicked="MovePropertyUp"
+                                            BindingContext="{Binding .}" />
+
+                                    <Button Text="x"
+                                            Clicked="RemoveProperty"
+                                            BindingContext="{Binding .}" />
+
+                                    <Button Text="\/"
+                                            Clicked="MovePropertyDown"
+                                            BindingContext="{Binding .}" />
+                                </StackLayout>
+
+                                <Border Stroke="#000000"
+                                        StrokeThickness="1"
+                                        Margin="20,0,0,0">
+                                    <StackLayout Padding="10,10,10,10">
+                                        <Label Text="Name" />
+                                        <Entry Placeholder="Property name"
+                                               Text="{Binding Name, FallbackValue=''}"
+                                               IsSpellCheckEnabled="False" />
+
+                                        <Label Text="Description" Margin="0,10,0,0" />
+                                        <Entry Placeholder="Property description"
+                                               Text="{Binding Description, FallbackValue=''}"
+                                               IsSpellCheckEnabled="False" />
+
+                                        <Label Text="Type" Margin="0,10,0,0" />
+                                        <popups:DataTypePicker ItemsSource="{Binding Models, Source={RelativeSource AncestorType={x:Type xxx:RequestsPageViewModel}}}"
+                                                               SelectedItem="{Binding DataType, Mode=TwoWay, FallbackValue=null}" />
+
+                                        <StackLayout Orientation="Horizontal">
+                                            <StackLayout>
+                                                <Label Text="Nullable" />
+                                                <CheckBox IsChecked="{Binding IsNullable, FallbackValue=false}" />
+                                            </StackLayout>
+                                            <StackLayout Margin="20,0,0,0">
+                                                <Label Text="Initialize" />
+                                                <CheckBox IsChecked="{Binding Initialize, FallbackValue=false}" />
+                                            </StackLayout>
+                                            <StackLayout Margin="20,0,0,0">
+                                                <Label Text="List" />
+                                                <CheckBox IsChecked="{Binding IsList, FallbackValue=false}" />
+                                            </StackLayout>
+                                            <StackLayout Margin="20,0,0,0">
+                                                <Label Text="Max Length" />
+                                                <controls:NumericEntry Placeholder="Max Length" 
+                                                                       Keyboard="Numeric"
+                                                                       Text="{Binding MaxLength, FallbackValue=null, Converter={StaticResource NullableIntToString}}"
+                                                                       IsSpellCheckEnabled="False"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Border>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+
+        <Border Stroke="#000000"
+                StrokeThickness="1"
+                Grid.Column="0">
+            <ListView ItemsSource="{Binding Requests}"
+                      SelectedItem="{Binding SelectedRequest, Mode=TwoWay}">
+
+                <ListView.Header>
+                    <StackLayout>
+                        <Entry Text="{Binding SearchTerm}"
+                               ClearButtonVisibility="WhileEditing"
+                               IsSpellCheckEnabled="False"/>
+                    </StackLayout>
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:RequestInfo">
+                        <TextCell Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+                <ListView.Footer>
+                    <StackLayout Orientation="Horizontal" Spacing="20">
+                        <Button Text="Remove Request" Clicked="RemoveRequest"
+                                IsEnabled="{Binding SelectedRequest, Converter={StaticResource IsNotNullConverter}}" />
+                        <Button Text="Add Request" Clicked="AddRequest" />
+                    </StackLayout>
+                </ListView.Footer>
+
+            </ListView>
+        </Border>
+    </Grid>
+
+</ContentPage>
