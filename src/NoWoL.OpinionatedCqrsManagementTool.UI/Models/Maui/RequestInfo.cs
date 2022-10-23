@@ -15,7 +15,10 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models.Maui
         private string? _verb;
 
         [ObservableProperty]
-        private bool _requiresAuthentication;
+        private bool _allowAnonymous;
+
+        [ObservableProperty]
+        private string? _claims;
 
         [ObservableProperty]
         private RequestLayerInfo _domain = new();

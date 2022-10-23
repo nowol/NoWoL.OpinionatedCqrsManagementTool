@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Security.Claims;
 using NoWoL.OpinionatedCqrsManagementTool.UI.Models.Maui;
 
 namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models.Json
@@ -14,13 +15,12 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models.Json
             Name = requestInfo.Name;
             Url = requestInfo.Url;
             Verb = requestInfo.Verb;
-            RequiresAuthentication = requestInfo.RequiresAuthentication;
+            AllowAnonymous = requestInfo.AllowAnonymous;
+            Claims = requestInfo.Claims;
             Domain = new ServiceModelRequestLayerInfo(requestInfo.Domain, allRequests);
             Service = new ServiceModelRequestLayerInfo(requestInfo.Service, allRequests);
-            Properties = Enumerable.Select<RequestPropertyInfo, ServiceModelRequestProperty>(requestInfo.Properties,
-                                              x => new ServiceModelRequestProperty(x, allModels)).ToList();
-            ReturnCodes = Enumerable.Select<RequestReturnCode, ServiceModelRequestReturn>(requestInfo.ReturnCodes,
-                                               x => new ServiceModelRequestReturn(x, allModels)).ToList();
+            Properties = requestInfo.Properties.Select(x => new ServiceModelRequestProperty(x, allModels)).ToList();
+            ReturnCodes = requestInfo.ReturnCodes.Select(x => new ServiceModelRequestReturn(x, allModels)).ToList();
         }
 
         public string? Name { get; set; }
@@ -29,7 +29,9 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models.Json
 
         public string? Verb { get; set; }
 
-        public bool RequiresAuthentication { get; set; }
+        public bool AllowAnonymous { get; set; }
+
+        public string? Claims { get; set; }
 
         public ServiceModelRequestLayerInfo? Domain { get; set; }
 

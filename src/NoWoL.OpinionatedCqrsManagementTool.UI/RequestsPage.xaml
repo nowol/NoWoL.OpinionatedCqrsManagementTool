@@ -49,8 +49,11 @@
                             Clicked="RenameRequest" />
                 </Grid>
 
-                <Label Text="Requires Authentication" Style="{StaticResource HeaderStyle}" />
-                <CheckBox IsChecked="{Binding SelectedRequest.RequiresAuthentication, FallbackValue=false}" />
+                <Label Text="Allow Anonymous" Style="{StaticResource HeaderStyle}" />
+                <CheckBox IsChecked="{Binding SelectedRequest.AllowAnonymous, FallbackValue=false}" />
+
+                <Label Text="Claims" Style="{StaticResource HeaderStyle}" />
+                <Editor Text="{Binding SelectedRequest.Claims, FallbackValue=''}" AutoSize="TextChanges"></Editor>
 
                 <Label Text="Verb" Style="{StaticResource HeaderStyle}" />
                 <Picker SelectedItem="{Binding SelectedRequest.Verb, FallbackValue=null}">
@@ -197,6 +200,10 @@
                                             <StackLayout Margin="20,0,0,0">
                                                 <Label Text="List" />
                                                 <CheckBox IsChecked="{Binding IsList, FallbackValue=false}" />
+                                            </StackLayout>
+                                            <StackLayout Margin="20,0,0,0">
+                                                <Label Text="Hide In Logs" />
+                                                <CheckBox IsChecked="{Binding HideInLogs, FallbackValue=false}" />
                                             </StackLayout>
                                             <StackLayout Margin="20,0,0,0">
                                                 <Label Text="Max Length" />

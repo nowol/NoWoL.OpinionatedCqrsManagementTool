@@ -17,6 +17,7 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models.Json
             IsNullable = requestPropertyInfo.IsNullable;
             Initialize = requestPropertyInfo.Initialize;
             IsList = requestPropertyInfo.IsList;
+            HideInLogs = requestPropertyInfo.HideInLogs;
             MaxLength = requestPropertyInfo.MaxLength;
             DataType = requestPropertyInfo.DataType == null ? null : allModels.FirstOrDefault(x => x == requestPropertyInfo.DataType)?.Name;
         }
@@ -30,6 +31,8 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models.Json
         public bool Initialize { get; set; }
 
         public bool IsList { get; set; }
+
+        public bool HideInLogs { get; set; }
 
         public int? MaxLength { get; set; }
 

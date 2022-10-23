@@ -104,7 +104,8 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models
                     ri.Name = serviceModelRequest.Name;
                     ri.Url = serviceModelRequest.Url;
                     ri.Verb = serviceModelRequest.Verb;
-                    ri.RequiresAuthentication = serviceModelRequest.RequiresAuthentication;
+                    ri.AllowAnonymous = serviceModelRequest.AllowAnonymous;
+                    ri.Claims = serviceModelRequest.Claims;
                     ri.Domain.Namespace = serviceModelRequest.Domain?.Namespace;
                     ri.Service.Namespace = serviceModelRequest.Service?.Namespace;
 
@@ -119,6 +120,7 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models
                             prop.IsNullable = property.IsNullable;
                             prop.Initialize = property.Initialize;
                             prop.IsList = property.IsList;
+                            prop.HideInLogs = property.HideInLogs;
                             prop.MaxLength = property.MaxLength;
 
                             ri.Properties.Add(prop);
@@ -199,6 +201,7 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models
                             prop.IsNullable = property.IsNullable;
                             prop.Initialize = property.Initialize;
                             prop.IsList = property.IsList;
+                            prop.HideInLogs = property.HideInLogs;
                             prop.MaxLength = property.MaxLength;
 
                             mi.Properties.Add(prop);
@@ -278,14 +281,12 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models
 
         private List<ServiceModelRequest> ConvertRequestsForSaving()
         {
-            return Enumerable.Select<RequestInfo, ServiceModelRequest>(Requests,
-                                        x => new ServiceModelRequest(x, Models, Requests)).ToList();
+            return Requests.OrderBy(x => x.Name).Select(x => new ServiceModelRequest(x, Models, Requests)).ToList();
         }
 
         private List<ServiceModelModel> ConvertModelsForSaving()
         {
-            return Enumerable.Select<ModelInfo, ServiceModelModel>(Models,
-                                        x => new ServiceModelModel(x, Models)).ToList();
+            return Models.OrderBy(x => x.Name).Select(x => new ServiceModelModel(x, Models)).ToList();
         }
     }
 }

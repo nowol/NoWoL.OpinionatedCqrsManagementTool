@@ -14,17 +14,15 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models.Json
             Name = modelInfo.Name;
             Domain = new ServiceModelModelLayerInfo(modelInfo.Domain, allModels);
             Service = new ServiceModelModelLayerInfo(modelInfo.Service, allModels);
-            Properties = Enumerable.Select<ModelPropertyInfo, ServiceModelModelProperty>(modelInfo.Properties,
-                                              x => new ServiceModelModelProperty(x, allModels)).ToList();
+            Properties = modelInfo.Properties.Select(x => new ServiceModelModelProperty(x, allModels)).ToList();
 
             if (modelInfo.EnumValues.Count > 0)
             {
-                EnumValues = Enumerable.Select<EnumValueModel, ServiceModelEnumValue>(modelInfo.EnumValues,
-                                                  x => new ServiceModelEnumValue
-                                                       {
-                                                           Text = x.Text,
-                                                           Value = x.Value
-                                                       }).ToList();
+                EnumValues = modelInfo.EnumValues.Select(x => new ServiceModelEnumValue
+                {
+                    Text = x.Text,
+                    Value = x.Value
+                }).ToList();
             }
         }
 

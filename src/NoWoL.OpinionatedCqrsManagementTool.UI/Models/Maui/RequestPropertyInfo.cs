@@ -20,6 +20,9 @@ namespace NoWoL.OpinionatedCqrsManagementTool.UI.Models.Maui
         private bool _isList;
 
         [ObservableProperty]
+        private bool _hideInLogs;
+
+        [ObservableProperty]
         private int? _maxLength;
 
         [ObservableProperty]

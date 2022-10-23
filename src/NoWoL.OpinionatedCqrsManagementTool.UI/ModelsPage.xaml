@@ -16,6 +16,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
+            <toolkit:IsListNullOrEmptyConverter x:Key="IsListNullOrEmptyConverter" />
         </ResourceDictionary>
         <converters:NullableIntToStringConverter x:Key="NullableIntToString" />
     </ContentPage.Resources>
@@ -108,116 +109,126 @@
                     Grid.Column="2"
                     IsVisible="{Binding SelectedModel, Converter={StaticResource IsNotNullConverter}}">
             <StackLayout>
-                <Label Text="Properties" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
-                <Button Text="Add property" Clicked="AddProperty" />
+                <StackLayout IsVisible="{Binding SelectedModel.EnumValues, FallbackValue=null, Converter={StaticResource IsListNullOrEmptyConverter}, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}">
+                    <StackLayout>
+                        <Label Text="Properties" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
+                        <Button Text="Add property" Clicked="AddProperty" />
 
-                <StackLayout Spacing="16" Margin="0,16,0,0"
-                    BindableLayout.ItemsSource="{Binding SelectedModel.Properties, FallbackValue=null, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}} }">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="models:ModelPropertyInfo">
+                        <StackLayout Spacing="16" Margin="0,16,0,0"
+                        BindableLayout.ItemsSource="{Binding SelectedModel.Properties, FallbackValue=null, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}} }">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:ModelPropertyInfo">
 
-                            <StackLayout Orientation="Horizontal">
-                                <StackLayout>
-                                    <Button Text="/\"
-                                            Clicked="MovePropertyUp"
-                                            BindingContext="{Binding .}" />
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout>
+                                            <Button Text="/\"
+                                                Clicked="MovePropertyUp"
+                                                BindingContext="{Binding .}" />
 
-                                    <Button Text="x"
-                                            Clicked="RemoveProperty"
-                                            BindingContext="{Binding .}" />
+                                            <Button Text="x"
+                                                Clicked="RemoveProperty"
+                                                BindingContext="{Binding .}" />
 
-                                    <Button Text="\/"
-                                            Clicked="MovePropertyDown"
-                                            BindingContext="{Binding .}" />
-                                </StackLayout>
-
-                                <Border Stroke="#000000"
-                                        StrokeThickness="1"
-                                        Margin="20,0,0,0">
-                                    <StackLayout Padding="10,10,10,10">
-                                        <Label Text="Name" />
-                                        <Entry Placeholder="Property name"
-                                               Text="{Binding Name, FallbackValue=''}"
-                                               IsSpellCheckEnabled="False" />
-
-                                        <Label Text="Description" Margin="0,10,0,0" />
-                                        <Entry Placeholder="Property description"
-                                               Text="{Binding Description, FallbackValue=''}"
-                                               IsSpellCheckEnabled="False" />
-
-                                        <Label Text="Type" Margin="0,10,0,0" />
-                                        <popups:DataTypePicker x:DataType="models:ModelPropertyInfo"
-                                                               ItemsSource="{Binding Models, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}"
-                                                               SelectedItem="{Binding DataType, Mode=TwoWay, FallbackValue=null}" />
-
-                                        <StackLayout Orientation="Horizontal">
-                                            <StackLayout>
-                                                <Label Text="Nullable" />
-                                                <CheckBox IsChecked="{Binding IsNullable, FallbackValue=false}" />
-                                            </StackLayout>
-                                            <StackLayout Margin="20,0,0,0">
-                                                <Label Text="Initialize" />
-                                                <CheckBox IsChecked="{Binding Initialize, FallbackValue=false}" />
-                                            </StackLayout>
-                                            <StackLayout Margin="20,0,0,0">
-                                                <Label Text="List" />
-                                                <CheckBox IsChecked="{Binding IsList, FallbackValue=false}" />
-                                            </StackLayout>
-                                            <StackLayout Margin="20,0,0,0">
-                                                <Label Text="Max Length" />
-                                                <controls:NumericEntry Placeholder="Max Length" 
-                                                                       Keyboard="Numeric"
-                                                                       Text="{Binding MaxLength, FallbackValue=null, Converter={StaticResource NullableIntToString}}"
-                                                                       IsSpellCheckEnabled="False"/>
-                                            </StackLayout>
+                                            <Button Text="\/"
+                                                Clicked="MovePropertyDown"
+                                                BindingContext="{Binding .}" />
                                         </StackLayout>
+
+                                        <Border Stroke="#000000"
+                                            StrokeThickness="1"
+                                            Margin="20,0,0,0">
+                                            <StackLayout Padding="10,10,10,10">
+                                                <Label Text="Name" />
+                                                <Entry Placeholder="Property name"
+                                                   Text="{Binding Name, FallbackValue=''}"
+                                                   IsSpellCheckEnabled="False" />
+
+                                                <Label Text="Description" Margin="0,10,0,0" />
+                                                <Entry Placeholder="Property description"
+                                                   Text="{Binding Description, FallbackValue=''}"
+                                                   IsSpellCheckEnabled="False" />
+
+                                                <Label Text="Type" Margin="0,10,0,0" />
+                                                <popups:DataTypePicker x:DataType="models:ModelPropertyInfo"
+                                                                   ItemsSource="{Binding Models, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}"
+                                                                   SelectedItem="{Binding DataType, Mode=TwoWay, FallbackValue=null}" />
+
+                                                <StackLayout Orientation="Horizontal">
+                                                    <StackLayout>
+                                                        <Label Text="Nullable" />
+                                                        <CheckBox IsChecked="{Binding IsNullable, FallbackValue=false}" />
+                                                    </StackLayout>
+                                                    <StackLayout Margin="20,0,0,0">
+                                                        <Label Text="Initialize" />
+                                                        <CheckBox IsChecked="{Binding Initialize, FallbackValue=false}" />
+                                                    </StackLayout>
+                                                    <StackLayout Margin="20,0,0,0">
+                                                        <Label Text="List" />
+                                                        <CheckBox IsChecked="{Binding IsList, FallbackValue=false}" />
+                                                    </StackLayout>
+                                                    <StackLayout Margin="20,0,0,0">
+                                                        <Label Text="Hide In Logs" />
+                                                        <CheckBox IsChecked="{Binding HideInLogs, FallbackValue=false}" />
+                                                    </StackLayout>
+                                                    <StackLayout Margin="20,0,0,0">
+                                                        <Label Text="Max Length" />
+                                                        <controls:NumericEntry Placeholder="Max Length" 
+                                                                           Keyboard="Numeric"
+                                                                           Text="{Binding MaxLength, FallbackValue=null, Converter={StaticResource NullableIntToString}}"
+                                                                           IsSpellCheckEnabled="False"/>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Border>
                                     </StackLayout>
-                                </Border>
-                            </StackLayout>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </StackLayout>
                 </StackLayout>
 
-                <Label Text="Enum values" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
-                <Button Text="Add enum value" Clicked="AddEnumValue" />
+                <StackLayout IsVisible="{Binding SelectedModel.Properties, FallbackValue=null, Converter={StaticResource IsListNullOrEmptyConverter}, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}}}">
+                    <Label Text="Enum values" Margin="0,10,0,0" Style="{StaticResource HeaderStyle}" />
+                    <Button Text="Add enum value" Clicked="AddEnumValue"/>
 
-                <StackLayout Spacing="16" Margin="0,16,0,0"
+                    <StackLayout Spacing="16" Margin="0,16,0,0"
                     BindableLayout.ItemsSource="{Binding SelectedModel.EnumValues, FallbackValue=null, Source={RelativeSource AncestorType={x:Type ui:ModelsPageViewModel}} }">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="models:EnumValueModel">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:EnumValueModel">
 
-                            <StackLayout Orientation="Horizontal">
-                                <StackLayout>
-                                    <Button Text="/\"
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout>
+                                        <Button Text="/\"
                                             Clicked="MoveEnumValueUp"
                                             BindingContext="{Binding .}" />
 
-                                    <Button Text="x"
+                                        <Button Text="x"
                                             Clicked="RemoveEnumValue"
                                             BindingContext="{Binding .}" />
 
-                                    <Button Text="\/"
+                                        <Button Text="\/"
                                             Clicked="MoveEnumValueDown"
                                             BindingContext="{Binding .}" />
-                                </StackLayout>
+                                    </StackLayout>
 
-                                <Border Stroke="#000000"
+                                    <Border Stroke="#000000"
                                         StrokeThickness="1"
                                         Margin="20,0,0,0">
-                                    <StackLayout Padding="10,10,10,10">
-                                        <Label Text="Text" />
-                                        <Label Text="{Binding Text}" />
+                                        <StackLayout Padding="10,10,10,10">
+                                            <Label Text="Text" />
+                                            <Label Text="{Binding Text}" />
 
-                                        <Label Text="Value (optional)" />
-                                        <controls:NumericEntry Placeholder="Value" 
+                                            <Label Text="Value (optional)" />
+                                            <controls:NumericEntry Placeholder="Value" 
                                                                Keyboard="Numeric"
                                                                Text="{Binding Value, FallbackValue=null, Converter={StaticResource NullableIntToString}}"
                                                                IsSpellCheckEnabled="False"/>
-                                    </StackLayout>
-                                </Border>
-                            </StackLayout>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
+                                        </StackLayout>
+                                    </Border>
+                                </StackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
